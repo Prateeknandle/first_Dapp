@@ -1,2 +1,2 @@
 # first_Dapp
-wave portal with the heelp of buildspace
+wave portal with the help of buildspace
