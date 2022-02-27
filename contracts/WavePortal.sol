@@ -31,7 +31,7 @@ contract WavePortal {
 
     constructor() payable {
         console.log("I AM SMART CONTRACT. POG.");
-        seed = (block.timestamp + block.difficulty) % 100;
+        seed = (block.timestamp + block.difficulty) % 100; //generate random number
     }
 
     /*
@@ -43,7 +43,7 @@ contract WavePortal {
         require(
             lastWavedAt[msg.sender] + 15 minutes < block.timestamp,
             "Wait 15m"
-        );
+        ); //require to wait 15 minutes for next wave
         lastWavedAt[msg.sender] = block.timestamp;
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
@@ -70,7 +70,7 @@ contract WavePortal {
             require(
                 prizeAmount <= address(this).balance,
                 "Trying to withdraw more money than the contract has."
-            );
+            ); // check that we have enough ethers to give or not
             (bool success, ) = (msg.sender).call{value: prizeAmount}("");
             require(success, "Failed to withdraw money from contract.");
         }
