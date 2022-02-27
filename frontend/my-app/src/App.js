@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { ethers } from "ethers"; //ether.js
 import "./App.css";
-import abi from "./utils/WavePortal.json";
+import abi from "./utils/WavePortal.json"; //abi file
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
- const contractAddress = "0x44fe4a28609283A464c83d9D6bC05A3D58759A4C";
+ const contractAddress = "0x44fe4a28609283A464c83d9D6bC05A3D58759A4C"; //addredd on blockchain
   const contractABI = abi.abi;
   const checkIfWalletIsConnected = async () => {
     try {
-      const { ethereum } = window;
+      const { ethereum } = window; //for metamask(wallet)
 
       if (!ethereum) {
         console.log("Make sure you have metamask!");
@@ -23,7 +23,7 @@ const App = () => {
       //fetching acc from metamask
 
       if (accounts.length !== 0) {
-        const account = accounts[0];
+        const account = accounts[0]; //extract acc from metamaks
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
         getAllWaves();
@@ -47,7 +47,7 @@ const App = () => {
         return;
       }
 
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" }); //connect metamask(acc)
 
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
@@ -61,9 +61,9 @@ const App = () => {
       const { ethereum } = window;
 
       if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-         const contractABI = abi.abi;
+        const provider = new ethers.providers.Web3Provider(ethereum);//used to read from blockchain
+        const signer = provider.getSigner();//used to write on blockchain
+        const contractABI = abi.abi;//code(contract)
         const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
 
         let count = await wavePortalContract.getTotalWaves();
@@ -124,6 +124,7 @@ const getAllWaves = async () => {
   }
 
   useEffect(() => {
+    //implement to see the changes in real-time
   let wavePortalContract;
 
   const onNewWave = (from, timestamp, message) => {
@@ -143,12 +144,12 @@ const getAllWaves = async () => {
     const signer = provider.getSigner();
 
     wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-    wavePortalContract.on("NewWave", onNewWave);
+    wavePortalContract.on("NewWave", onNewWave);//add listner
   }
 
   return () => {
     if (wavePortalContract) {
-      wavePortalContract.off("NewWave", onNewWave);
+      wavePortalContract.off("NewWave", onNewWave);//remove listner
     }
   };
 }, []);

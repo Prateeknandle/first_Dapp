@@ -71,7 +71,7 @@ contract WavePortal {
                 prizeAmount <= address(this).balance,
                 "Trying to withdraw more money than the contract has."
             ); // check that we have enough ethers to give or not
-            (bool success, ) = (msg.sender).call{value: prizeAmount}("");
+            (bool success, ) = (msg.sender).call{value: prizeAmount}(""); //sending ethers to luccky one
             require(success, "Failed to withdraw money from contract.");
         }
 
